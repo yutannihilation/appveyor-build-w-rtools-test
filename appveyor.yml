@@ -8,7 +8,6 @@ init:
 install:
   # Install ICU and CMake (TODO: install 32bit version as well)
   - call C:\msys64\usr\bin\pacman.exe --noconfirm -Sy mingw-w64-x86_64-icu mingw-w64-x86_64-cmake
-  - ls C:\msys64\mingw64\include\unicode
   # Install RTools
   - ps: |
         if (!(Test-Path "C:\Rtools")) {
@@ -20,8 +19,8 @@ install:
   - del boost_1_68_0.tar.gz
   - cd boost_1_68_0/
   - set PATH="C:\msys64\mingw64\bin;C:\msys64\usr\local\bin;C:\msys64\usr\bin;C:\msys64\bin;%PATH%"
-  - call C:\msys64\usr\bin\bash.exe -c './bootstrap.sh --prefix=C:\msys64\mingw64 --with-libraries=regex,filesystem,system'
-  - call C:\msys64\usr\bin\bash.exe -c './b2 define=_GLIBCXX_USE_CXX11_ABI=0 include=C:\msys64\mingw64\include\unicode -sICU_LINK="-licuuc -licudt -licuin" link=shared variant=release install headers'
+  - call C:\msys64\usr\bin\bash.exe -c './bootstrap.sh --prefix=/msys64/mingw64 --with-libraries=regex,filesystem,system'
+  - call C:\msys64\usr\bin\bash.exe -c './b2 -a define=_GLIBCXX_USE_CXX11_ABI=0 include=/msys64/mingw64/include/unicode -sICU_LINK="-licuuc -licudt -licuin" link=shared variant=release install headers'
 
 build_script:
   - set 'CC=C:\Rtools\mingw_64\bin\gcc'
