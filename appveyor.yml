@@ -8,7 +8,12 @@ init:
 install:
   ps: |
         Bootstrap
-        InstallRtools
+        if (Test-Path "C:\Rtools") {
+          InstallRtools
+        }
 
 build_script:
   - echo hello
+
+cache:
+  - C:\Rtools
