@@ -12,7 +12,11 @@ install:
         }
 
 build_script:
-  - echo hello
+  - appveyor DownloadFile https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.gz
+  - tar xzf boost_1_68_0.tar.gz
+  - del boost_1_68_0.tar.gz
+  - cd boost_1_68_0/
+  - mingw64 ./bootstrap.sh --prefix=/msys64/mingw64 --with-libraries=regex,filesystem,system
 
 cache:
   - C:\Rtools
