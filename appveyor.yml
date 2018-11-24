@@ -12,7 +12,8 @@ install:
         }
 
 build_script:
-  - call C:\msys2\usr\bin\pacman.exe -Sy mingw-w64-x86_64-icu
+  - call C:\msys2\usr\bin\bash echo 1
+  - call C:\msys2\usr\bin\pacman.exe -Sy mingw-w64-x86_64-icu mingw-w64-i686-icu
   - appveyor DownloadFile https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.gz
   - tar xzf boost_1_68_0.tar.gz
   - del boost_1_68_0.tar.gz
