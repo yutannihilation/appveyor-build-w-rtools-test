@@ -6,9 +6,9 @@ init:
         Import-Module '..\appveyor-tool.ps1'
 
 install:
-  ps:
-    - Bootstrap
-    - InstallRtools
+  ps: |
+        Bootstrap
+        InstallRtools
 
 build_script:
   - echo hello
