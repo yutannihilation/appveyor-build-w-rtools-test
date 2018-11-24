@@ -6,20 +6,27 @@ init:
         Import-Module '..\appveyor-tool.ps1'
 
 install:
-  - ls C:\msys64
-  - call C:\msys64\usr\bin\bash -c "echo 1"
-  - call C:\msys64\usr\bin\pacman.exe -Sy mingw-w64-x86_64-icu mingw-w64-i686-icu
+  # Install ICU
+  - call C:\msys64\usr\bin\pacman.exe --noconfirm -Sy mingw-w64-x86_64-icu mingw-w64-i686-icu
+  # Install RTools
   - ps: |
         if (!(Test-Path "C:\Rtools")) {
           InstallRtools
         }
-
-build_script:
-  - appveyor DownloadFile https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.gz
+  # Install boost
   - tar xzf boost_1_68_0.tar.gz
   - del boost_1_68_0.tar.gz
   - cd boost_1_68_0/
-  - ./bootstrap.sh --prefix=/msys64/mingw64 --with-libraries=regex,filesystem,system
+  - call C:\msys64\usr\bin\bash.exe -c './bootstrap.sh --prefix=/msys64/mingw64 --with-libraries=regex,filesystem,system'
+  - call C:\msys64\usr\bin\bash.exe -c './b2 define=_GLIBCXX_USE_CXX11_ABI=0 include=/msys64/mingw64/include -sICU_LINK="-licuuc -licudt -licuin" link=shared variant=release install headers'
 
-#cache:
-#  - C:\Rtools
+build_script:
+  - appveyor DownloadFile https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.gz
+
+cache:
+  - C:\Rtools
+
+environment:
+  global:
+    CC: "/c/Rtools/mingw_64/bin/gcc"
+    CXX: "/c/Rtools/mingw_64/bin/g++"
