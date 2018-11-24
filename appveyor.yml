@@ -14,6 +14,7 @@ install:
           InstallRtools
         }
   # Install boost
+  - appveyor DownloadFile https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.gz
   - tar xzf boost_1_68_0.tar.gz
   - del boost_1_68_0.tar.gz
   - cd boost_1_68_0/
@@ -21,7 +22,7 @@ install:
   - call C:\msys64\usr\bin\bash.exe -c './b2 define=_GLIBCXX_USE_CXX11_ABI=0 include=/msys64/mingw64/include -sICU_LINK="-licuuc -licudt -licuin" link=shared variant=release install headers'
 
 build_script:
-  - appveyor DownloadFile https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.gz
+  - echo ok
 
 cache:
   - C:\Rtools
