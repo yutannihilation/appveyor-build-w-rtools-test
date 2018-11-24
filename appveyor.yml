@@ -6,8 +6,8 @@ init:
         Import-Module '..\appveyor-tool.ps1'
 
 install:
-  # Install ICU
-  - call C:\msys64\usr\bin\pacman.exe --noconfirm -Sy mingw-w64-x86_64-icu mingw-w64-i686-icu
+  # Install ICU and CMake (TODO: install 32bit version as well)
+  - call C:\msys64\usr\bin\pacman.exe --noconfirm -Sy mingw-w64-x86_64-icu mingw-w64-x86_64-cmake
   # Install RTools
   - ps: |
         if (!(Test-Path "C:\Rtools")) {
@@ -23,12 +23,25 @@ install:
   - call C:\msys64\usr\bin\bash.exe -c './b2 define=_GLIBCXX_USE_CXX11_ABI=0 include=/msys64/mingw64/include -sICU_LINK="-licuuc -licudt -licuin" link=shared variant=release install headers'
 
 build_script:
-  - echo ok
+  - set 'CC=C:\Rtools\mingw_64\bin\gcc'
+  - set 'CXX=C:\Rtools\mingw_64\bin\g++'
+  - appveyor DownloadFile http://archive.apache.org/dist/arrow/arrow-0.11.1/apache-arrow-0.11.1.tar.gz
+  - tar xzf apache-arrow-0.11.1.tar.gz
+  - del apache-arrow-0.11.1.tar.gz
+  - cd apache-arrow-0.11.1/cpp
+  - mkdir build
+  - cd build
+  - call C:\msys64\mingw64\bin\cmake.exe -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release .. ^
+      -DARROW_BUILD_TESTS=FALSE ^
+      -DARROW_WITH_SNAPPY=FALSE ^
+      -DARROW_WITH_ZSTD=FALSE ^
+      -DARROW_WITH_LZ4=FALSE ^
+      -DARROW_JEMALLOC=FALSE ^
+      -DARROW_BUILD_STATIC=TRUE ^
+      -DARROW_BOOST_VENDORED=FALSE ^
+      -DARROW_BOOST_USE_SHARED=FALSE ^
+      -DARROW_WITH_ZLIB=FALSE ^
+      -DARROW_WITH_BROTLI=FALSE
 
 cache:
   - C:\Rtools
-
-environment:
-  global:
-    CC: "/c/Rtools/mingw_64/bin/gcc"
-    CXX: "/c/Rtools/mingw_64/bin/g++"
