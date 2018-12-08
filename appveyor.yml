@@ -44,7 +44,7 @@ build_script:
       -DARROW_WITH_BROTLI=FALSE
 
 on_failure:
-  - appveyor PushArtifact boost_1_68_0/bootstrap.log
+  - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%/boost_1_68_0/bootstrap.log
 
 cache:
   - C:\Rtools
