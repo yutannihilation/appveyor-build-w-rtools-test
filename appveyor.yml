@@ -19,6 +19,7 @@ install:
   - del boost_1_68_0.tar.gz
   - cd boost_1_68_0/
   - set PATH="C:\msys64\mingw64\bin;C:\msys64\usr\local\bin;C:\msys64\usr\bin;C:\msys64\bin;%PATH%"
+  - echo "%PATH%"
   - call .\bootstrap.bat --prefix=C:\msys64\mingw64 --with-libraries=regex,filesystem,system mingw
   - call .\b2 -a define=_GLIBCXX_USE_CXX11_ABI=0 include=C:\msys64\mingw64\include -sICU_LINK="-licuuc -licudt -licuin" link=shared variant=release install headers
 
