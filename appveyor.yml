@@ -43,7 +43,7 @@ build_script:
       -DARROW_WITH_ZLIB=FALSE ^
       -DARROW_WITH_BROTLI=FALSE
 
-after_build:
+on_failure:
   - appveyor PushArtifact boost_1_68_0/bootstrap.log
 
 cache:
