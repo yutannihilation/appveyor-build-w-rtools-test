@@ -46,3 +46,6 @@ build_script:
 
 cache:
   - C:\Rtools
+
+artifacts:
+  path: boost_1_68_0/bootstrap.log
