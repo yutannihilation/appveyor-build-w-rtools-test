@@ -7,7 +7,7 @@ init:
 
 install:
   # Install ICU and CMake (TODO: install 32bit version as well)
-  - call C:\msys64\usr\bin\pacman.exe --noconfirm -Sy mingw-w64-x86_64-icu mingw-w64-x86_64-cmake icu icu-devel
+  - call C:\msys64\usr\bin\pacman.exe --noconfirm -Sy mingw-w64-x86_64-icu mingw-w64-x86_64-cmake
   # Install RTools
   - ps: |
         if (!(Test-Path "C:\Rtools")) {
